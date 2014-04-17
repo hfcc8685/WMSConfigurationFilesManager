@@ -1,0 +1,21 @@
+{
+	"main": "index.html",
+	"name": "WMSCFM",
+	"version": "0.0.1",
+	"window": {
+		"title": "WMSCFM",
+		"toolbar": false,
+		"frame": false,
+		"width": 1200,
+		"height": 800,
+		"min_width": 1200,
+		"min_height": 800,
+		"max_width": 1200,
+		"max_height": 800,
+		"position": "center",
+		"resizable": false
+	},
+	"webkit": {
+		"plugin": true
+	}
+}

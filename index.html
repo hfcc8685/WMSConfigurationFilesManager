@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WMSCFM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/titlebar.css">
+		<style type="text/css">
+			.content{
+				padding: 0 15px;
+				margin-top: 32px; 
+			}
+		</style>
+  </head>
+  <body>
+		<div id="top-titlebar" class="top-titlebar">
+			<div class="top-titlebar-icon">
+				<img id="top-titlebaricon" src="resources/top-titlebar.png"/>
+			</div>
+			<div class="top-titlebar-text">WMSCFM</div>
+			<div id="top-titlebar-close-button" class="top-titlebar-close-button">
+				<img id="top-titlebar-close-buttonicon" src="resources/button_close.png"/>					
+			</div>
+			<div class="top-titlebar-divider"></div>
+		</div>
+		<div class="clearfix">...</div>	
+	  <div class="content">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-4">col-lg-4</div>
+					<div class="col-lg-8">col-lg-8</div>
+				</div>
+			</div>
+		</div>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+		<script type="text/javascript">	
+			function focusTitlebars(focus) {
+  			var bg_color = focus ? "#3a3d3d" : "#7a7c7c";    
+  			$("#top-titlebar").css("background-color",bg_color);
+			}
+
+			$(function(){
+				$(window).focus(function() {
+       		focusTitlebars(true);
+    		});
+
+    		$(window).blur(function() {
+					focusTitlebars(false);
+    		});
+
+				$("#top-titlebar-close-button").click(function(){
+					window.close();
+				});
+
+				$("#top-titlebar-close-button").hover(
+					function(){ 
+						$("#top-titlebar-close-buttonicon").attr('src', 'resources/button_close_hover.png');
+					 },
+					function(){
+						$("#top-titlebar-close-buttonicon").attr('src', 'resources/button_close.png'); 
+					}
+				);
+			});
+		</script>
+  </body>
+</html>
