@@ -2,36 +2,97 @@
 <html>
   <head>
     <title>WMSCFM</title>
+		<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
 		<link rel="stylesheet" type="text/css" href="css/titlebar.css">
-		<style type="text/css">
-			.content{
-				padding: 0 15px;
-				margin-top: 32px; 
-			}
-		</style>
   </head>
   <body>
+		<!--titleBar Start-->
 		<div id="top-titlebar" class="top-titlebar">
 			<div class="top-titlebar-icon">
 				<img id="top-titlebaricon" src="resources/top-titlebar.png"/>
 			</div>
 			<div class="top-titlebar-text">WMSCFM</div>
-			<div id="top-titlebar-close-button" class="top-titlebar-close-button">
-				<img id="top-titlebar-close-buttonicon" src="resources/button_close.png"/>					
+			<div id="top-titlebar-settings-button" class="top-titlebar-settings-button iconButton" aria-hidden="true"
+				data-toggle="tooltip" data-placement="left" title data-original-title="设置">
+				<span class="glyphicon glyphicon-cog"></span>
+			</div>
+			<div id="top-titlebar-close-button" class="top-titlebar-close-button iconButton" aria-hidden="true">
+				<span class="glyphicon glyphicon-remove"></span>
 			</div>
 			<div class="top-titlebar-divider"></div>
+		</div>	
+		<!--titleBar end-->
+		
+		<div class="btn-toolbar" role="toolbar">
+			<div class="btn-group">
+				<button type="button" class="btn btn-success">
+					<span class="glyphicon glyphicon-search"></span> 开始扫描配置文件
+				</button>
+			</div>
+			<div class="btn-group">
+				<button type="button" class="btn btn-info">
+					<span class="glyphicon glyphicon-pencil"></span> 修改配置文件为测试环境
+				</button>
+				<button type="button" class="btn btn-warning">
+					<span class="glyphicon glyphicon-pencil"></span> 修改配置文件为预发布环境
+				</button>
+				<button type="button" class="btn btn-danger">
+					<span class="glyphicon glyphicon-pencil"></span> 修改配置文件为线上环境
+				</button>
+			</div>
 		</div>
-		<div class="clearfix">...</div>	
+
+		<!--main start-->
 	  <div class="content">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-4">col-lg-4</div>
-					<div class="col-lg-8">col-lg-8</div>
+					<div class="col-lg-4">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+    						<h3 class="panel-title">符合条件的配置文件</h3>
+ 							</div>
+  						<div class="panel-body">
+    						Panel content
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-8">
+						<div class="panel panel-success">
+							<div class="panel-heading">
+    						<h3 class="panel-title">配置文件浏览编辑</h3>
+ 							</div>
+  						<div class="panel-body">
+    						Panel content
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
+		<!--main end-->
+
+		<!--settings start-->
+		<div class="modal fade bs-example-modal-lg" id="settings" tabindex="-1" role="dialog" aria-lableledby="settingslabel" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        		<h4 class="modal-title" id="settingslabel">软件设置</h4>
+					</div>
+					<div class="modal-body">
+					</div>
+					<div class="modal-footer">
+        		<button type="button" class="btn btn-primary">保存</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<div>
+				</div>
+			</div>
+		</div>
+		<!--settings end-->
+
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
 		<script type="text/javascript">	
@@ -49,18 +110,15 @@
 					focusTitlebars(false);
     		});
 
-				$("#top-titlebar-close-button").click(function(){
+				$('#top-titlebar-close-button').click(function(){
 					window.close();
+				});			
+
+				$('#top-titlebar-settings-button').tooltip();
+				$('#top-titlebar-settings-button').click(function(){
+					$('#settings').modal();
 				});
 
-				$("#top-titlebar-close-button").hover(
-					function(){ 
-						$("#top-titlebar-close-buttonicon").attr('src', 'resources/button_close_hover.png');
-					 },
-					function(){
-						$("#top-titlebar-close-buttonicon").attr('src', 'resources/button_close.png'); 
-					}
-				);
 			});
 		</script>
   </body>

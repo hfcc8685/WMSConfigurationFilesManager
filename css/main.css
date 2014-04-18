@@ -1,0 +1,45 @@
+::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+body {
+	padding-top:0px;//32+34+6+6	
+}
+
+.btn-toolbar {
+	position: absolute;
+	left: 30px;
+	top: 38px;
+	-webkit-app-region: no-drag;
+}
+
+.content {
+	padding: 0 15px; 
+	position: absolute;
+	left: 0px;
+	top: 78px;
+	-webkit-app-region: no-drag;
+}
+
+.modal {
+	overflow-y:hidden;
+	overflow-x:hidden;
+}
+
+.iconButton {
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 15px;
+  color: #000000;
+  text-shadow: 0 1px 0 #ffffff;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  text-decoration: none;
+}
+.iconButton:hover {
+  color: #000000;
+  text-decoration: none;
+  opacity: 0.4;
+  filter: alpha(opacity=40);
+  cursor: pointer;
+}
