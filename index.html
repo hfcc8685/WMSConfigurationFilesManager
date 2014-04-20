@@ -28,7 +28,7 @@
 		
 		<div class="btn-toolbar" role="toolbar">
 			<div class="btn-group">
-				<button type="button" class="btn btn-success">
+				<button type="button" class="btn btn-success" id="button-scanfile">
 					<span class="glyphicon glyphicon-search"></span> 开始扫描配置文件
 				</button>
 			</div>
@@ -55,7 +55,8 @@
     						<h3 class="panel-title">符合条件的配置文件</h3>
  							</div>
   						<div class="panel-body">
-    						Panel content
+								<ul class="list-group" id="ul-file-list">
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -64,7 +65,7 @@
 							<div class="panel-heading">
     						<h3 class="panel-title">配置文件浏览编辑</h3>
  							</div>
-  						<div class="panel-body">
+  						<div class="panel-body" id="panel-file-show">
     						Panel content
 							</div>
 						</div>
@@ -83,9 +84,30 @@
         		<h4 class="modal-title" id="settingslabel">软件设置</h4>
 					</div>
 					<div class="modal-body">
+
+						<div class="panel panel-success">
+							<div class="panel-heading"><h3 class="panel-title">项目路径(以逗号分割)</h3></div>									
+							<div class="panel-body">
+							  <textarea class="form-control" rows="5" id="textarea-config-projectAddress"></textarea>	
+							</div>
+						</div>
+
+						<div class="panel panel-info">
+							<div class="panel-heading"><h3 class="panel-title">文件过滤(以逗号分割)</h3></div>
+							<div class="panel-body">
+								<textarea class="form-control" rows="5" id="textarea-config-file"></textarea>
+							</div>
+						</div>
+
+						<div class="panel panel-primary">
+							<div class="panel-heading"><h3 class="panel-title">字符替换</h3></div>
+							<div class="panel-body">test</div>
+						</div>
+
 					</div>
+
 					<div class="modal-footer">
-        		<button type="button" class="btn btn-primary">保存</button>
+        		<button type="button" class="btn btn-primary" id="button-config-save">保存</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
 					<div>
 				</div>
@@ -95,7 +117,9 @@
 
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
-		<script type="text/javascript">	
+		<script type="text/javascript">
+			var fs = require('fs');
+
 			function focusTitlebars(focus) {
   			var bg_color = focus ? "#3a3d3d" : "#7a7c7c";    
   			$("#top-titlebar").css("background-color",bg_color);
@@ -117,6 +141,34 @@
 				$('#top-titlebar-settings-button').tooltip();
 				$('#top-titlebar-settings-button').click(function(){
 					$('#settings').modal();
+				});
+
+				$('#button-config-save').click(function() {
+					alert($('#textarea-config-projectAddress').val()+$('#textarea-config-file').val());
+				});
+
+				$('#button-scanfile').click(function() {
+					fs.readFile('config.json',function(err,data){
+						if (err) alert(err);
+						var configFile = JSON.parse(data);
+						var scanProjectAddress = configFile.scanfProjectAddress;
+						var scanFileFilter = configFile.scanFileFilter;
+						$.each(scanProjectAddress,function() {
+							fs.readdir(this.toString(),function(err,files) {
+								if (err) return;
+								$.each(files,function(){
+									var fileName = this;	
+									$.each(scanFileFilter,function() {
+										if (fileName.match(this)) {
+											$('#ul-file-list').append("<li class=\"list-group-item list-group-item-success\">"
+																								+fileName
+																								+"</li>");
+										}	
+									});
+								});
+							});
+						});
+					});
 				});
 
 			});
