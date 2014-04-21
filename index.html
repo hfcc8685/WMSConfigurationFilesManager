@@ -7,6 +7,16 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 		<link rel="stylesheet" type="text/css" href="css/titlebar.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap-dialog.min.css">
+		<link rel="stylesheet" type="text/css" href="codemirror/lib/codemirror.css">
+		<style type="text/css">
+      .CodeMirror {
+				border-top: 1px solid black; 
+				border-bottom: 1px solid black;
+				width:100%;
+				height:100%;
+			}
+    </style>
   </head>
   <body>
 		<!--titleBar Start-->
@@ -33,7 +43,7 @@
 				</button>
 			</div>
 			<div class="btn-group">
-				<button type="button" class="btn btn-info">
+				<button type="button" class="btn btn-info" id="btn-temp">
 					<span class="glyphicon glyphicon-pencil"></span> 修改配置文件为测试环境
 				</button>
 				<button type="button" class="btn btn-warning">
@@ -66,7 +76,7 @@
     						<h3 class="panel-title">配置文件浏览编辑</h3>
  							</div>
   						<div class="panel-body" id="panel-file-show">
-    						Panel content
+								<textarea id="code"></textarea> 		
 							</div>
 						</div>
 					</div>
@@ -86,14 +96,14 @@
 					<div class="modal-body">
 
 						<div class="panel panel-success">
-							<div class="panel-heading"><h3 class="panel-title">项目路径(以逗号分割)</h3></div>									
+							<div class="panel-heading"><h3 class="panel-title">项目路径(换行分割)</h3></div>									
 							<div class="panel-body">
 							  <textarea class="form-control" rows="5" id="textarea-config-projectAddress"></textarea>	
 							</div>
 						</div>
 
 						<div class="panel panel-info">
-							<div class="panel-heading"><h3 class="panel-title">文件过滤(以逗号分割)</h3></div>
+							<div class="panel-heading"><h3 class="panel-title">文件过滤(换行分割)</h3></div>
 							<div class="panel-body">
 								<textarea class="form-control" rows="5" id="textarea-config-file"></textarea>
 							</div>
@@ -117,8 +127,20 @@
 
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+		<script src="js/bootstrap-dialog.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="codemirror/lib/codemirror.js"></script>
+		<script src="codemirror/mode/xml/xml.js"></script>
+		<script src="codemirror/addon/selection/active-line.js"></script>
 		<script type="text/javascript">
 			var fs = require('fs');
+
+			var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+  			mode: "application/xml",
+  			styleActiveLine: true,
+  			lineNumbers: true,
+  			lineWrapping: true
+			});
 
 			function focusTitlebars(focus) {
   			var bg_color = focus ? "#3a3d3d" : "#7a7c7c";    
@@ -126,6 +148,7 @@
 			}
 
 			$(function(){
+
 				$(window).focus(function() {
        		focusTitlebars(true);
     		});
@@ -140,37 +163,56 @@
 
 				$('#top-titlebar-settings-button').tooltip();
 				$('#top-titlebar-settings-button').click(function(){
-					$('#settings').modal();
+					$('#settings').modal();	
+					fs.readFile('config.json',function (err, data) {
+						if (err) {
+							ShowError(err.toString());
+							return;
+						}						
+						var config = JSON.parse(data);						
+						editor.setValue(JSON.stringify(config));	
+						$('#textarea-config-projectAddress').val(config.scanProjectAddress.join("\n"));
+						$('#textarea-config-file').val(config.scanFileFilter.join("\n"));
+					});
 				});
 
 				$('#button-config-save').click(function() {
-					alert($('#textarea-config-projectAddress').val()+$('#textarea-config-file').val());
+				  var scanProjectAddress = $('#textarea-config-projectAddress').val().split("\n");
+					var scanFileFilter = $('#textarea-config-file').val().split("\n");
+					var config = {
+						"scanProjectAddress" : scanProjectAddress,
+						"scanFileFilter" : scanFileFilter
+					};
+					fs.writeFile('config.json',JSON.stringify(config),function (err){
+						if (err)
+							ShowError(err.toString());
+						else
+					 		ShowSuccess("保存成功");
+					});
 				});
 
 				$('#button-scanfile').click(function() {
 					fs.readFile('config.json',function(err,data){
 						if (err) alert(err);
 						var configFile = JSON.parse(data);
-						var scanProjectAddress = configFile.scanfProjectAddress;
+						var scanProjectAddress = configFile.scanProjectAddress;
 						var scanFileFilter = configFile.scanFileFilter;
 						$.each(scanProjectAddress,function() {
-							fs.readdir(this.toString(),function(err,files) {
-								if (err) return;
-								$.each(files,function(){
-									var fileName = this;	
-									$.each(scanFileFilter,function() {
-										if (fileName.match(this)) {
-											$('#ul-file-list').append("<li class=\"list-group-item list-group-item-success\">"
-																								+fileName
-																								+"</li>");
-										}	
-									});
-								});
-							});
+							scanFile(this.toString(),scanFileFilter);
 						});
 					});
 				});
 
+				$('#btn-temp').click(function() {
+							fs.readFile('D:\\NodeProject\\WMSConfigurationFilesManager\\addressTest\\Intime.WarehousingService.Data.Repositories.dll.config',function (err, data) {
+						if (err) {
+							ShowError(err.toString());
+							return;
+						}						
+						editor.setValue(String(data));
+					});
+	
+				});
 			});
 		</script>
   </body>

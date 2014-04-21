@@ -1,8 +1,1 @@
-{
-	"scanfProjectAddress": ["/Users/hanfeng/test/A1",
- 													"/Users/hanfeng/test/B1",
-													"/Users/hanfeng/test/C1",
-													"/Users/hanfeng/test/D1"],
-	"scanFileFilter": ["\\w.*\\.xml",
-									   "\\w.*\\.json"	]
-}
+{"scanProjectAddress":["D:\\NodeProject\\WMSConfigurationFilesManager\\addressTest"],"scanFileFilter":["\\w.*\\.xml","\\w.*\\.json","\\w.*\\.config"]}
