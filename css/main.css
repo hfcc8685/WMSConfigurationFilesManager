@@ -11,17 +11,25 @@ textarea {
 
 .btn-toolbar {
 	position: absolute;
-	left: 30px;
+	left: 15px;
 	top: 38px;
 	-webkit-app-region: no-drag;
 }
 
-.content {
-	padding: 0 15px; 
+.content { 
 	position: absolute;
 	left: 0px;
 	top: 78px;
+	width: 100%;
 	-webkit-app-region: no-drag;
+}
+
+.panel-body {
+	height: 700px;
+}
+
+.CodeMirror {
+	height: 100%;
 }
 
 .modal {

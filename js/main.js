@@ -48,9 +48,11 @@ function scanFile(path,scanFileFilter) {
 					if(file.isFile()) {
 						$.each(scanFileFilter,function() {
 							if(fileName.match(this)) {
-								$('#ul-file-list').append("<li class=\"list-group-item list-group-item-success\">"
-																								+path+"\\"+fileName
-																								+"</li>");
+								var filePath = path.toString()+"\\"+fileName.toString();	
+								filePath=filePath.replace(/\\/g,"\\\\");
+								$('#div-file-list').append("<a href=\"#\" class=\"list-group-item list-group-item-success\" onclick=\"showFileContent(\'"+filePath+"\')\">" 
+																			+fileName
+																			+"</a>");
 							}	
 						});
 					}
@@ -58,4 +60,14 @@ function scanFile(path,scanFileFilter) {
 			});
 		});
 	}
+}
+
+function showFileContent(filePath) {
+		fs.readFile(filePath,function (err, data) {
+							if (err) {
+								ShowError(err.toString());
+								return;
+							}						
+							editor.setValue(String(data));
+						});	
 }

@@ -1,1 +1,1 @@
-{"scanProjectAddress":["D:\\NodeProject\\WMSConfigurationFilesManager\\addressTest"],"scanFileFilter":["\\w.*\\.xml","\\w.*\\.json","\\w.*\\.config"]}
+{"scanProjectAddress":["E:\\TFS\\WMS\\08_Code2013\\01_Service\\01_Local\\00_PeopleManagementService\\Intime.WMS.People.Hosting","E:\\TFS\\WMS\\08_Code2013\\01_Service\\01_Local\\01_WarehousingService\\Intime.WarehousingService.Hosting"],"scanFileFilter":["\\web\\.config","\\PlugInConfig\\.xml","\\Intime.*.Data.Repositories.dll\\.config"]}

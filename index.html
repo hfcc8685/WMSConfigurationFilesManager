@@ -5,18 +5,10 @@
 		<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="css/main.css">
-		<link rel="stylesheet" type="text/css" href="css/titlebar.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-dialog.min.css">
 		<link rel="stylesheet" type="text/css" href="codemirror/lib/codemirror.css">
-		<style type="text/css">
-      .CodeMirror {
-				border-top: 1px solid black; 
-				border-bottom: 1px solid black;
-				width:100%;
-				height:100%;
-			}
-    </style>
+		<link rel="stylesheet" type="text/css" href="css/titlebar.css">
+		<link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body>
 		<!--titleBar Start-->
@@ -38,7 +30,7 @@
 		
 		<div class="btn-toolbar" role="toolbar">
 			<div class="btn-group">
-				<button type="button" class="btn btn-success" id="button-scanfile">
+				<button type="button" class="btn btn-success" id="button-scanfile" data-loading-text="扫描中...">
 					<span class="glyphicon glyphicon-search"></span> 开始扫描配置文件
 				</button>
 			</div>
@@ -57,16 +49,16 @@
 
 		<!--main start-->
 	  <div class="content">
-			<div class="container">
+			<div class="container-fluid">
 				<div class="row">
 					<div class="col-lg-4">
 						<div class="panel panel-primary">
 							<div class="panel-heading">
     						<h3 class="panel-title">符合条件的配置文件</h3>
  							</div>
-  						<div class="panel-body">
-								<ul class="list-group" id="ul-file-list">
-								</ul>
+  						<div class="panel-body" id="panel-file-list">
+								<div class="list-group" id="div-file-list">
+								</div>
 							</div>
 						</div>
 					</div>
@@ -128,10 +120,10 @@
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
 		<script src="js/bootstrap-dialog.min.js"></script>
-		<script src="js/main.js"></script>
 		<script src="codemirror/lib/codemirror.js"></script>
 		<script src="codemirror/mode/xml/xml.js"></script>
 		<script src="codemirror/addon/selection/active-line.js"></script>
+		<script src="js/main.js"></script>
 		<script type="text/javascript">
 			var fs = require('fs');
 
@@ -170,7 +162,6 @@
 							return;
 						}						
 						var config = JSON.parse(data);						
-						editor.setValue(JSON.stringify(config));	
 						$('#textarea-config-projectAddress').val(config.scanProjectAddress.join("\n"));
 						$('#textarea-config-file').val(config.scanFileFilter.join("\n"));
 					});
@@ -192,6 +183,9 @@
 				});
 
 				$('#button-scanfile').click(function() {
+					var btn = $(this);					
+					btn.button('loading');
+					$("#div-file-list").empty()				
 					fs.readFile('config.json',function(err,data){
 						if (err) alert(err);
 						var configFile = JSON.parse(data);
@@ -200,19 +194,14 @@
 						$.each(scanProjectAddress,function() {
 							scanFile(this.toString(),scanFileFilter);
 						});
+						btn.button('reset');
 					});
 				});
 
 				$('#btn-temp').click(function() {
-							fs.readFile('D:\\NodeProject\\WMSConfigurationFilesManager\\addressTest\\Intime.WarehousingService.Data.Repositories.dll.config',function (err, data) {
-						if (err) {
-							ShowError(err.toString());
-							return;
-						}						
-						editor.setValue(String(data));
-					});
-	
+					
 				});
+
 			});
 		</script>
   </body>
