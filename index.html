@@ -126,6 +126,7 @@
 		<script src="js/main.js"></script>
 		<script type="text/javascript">
 			var fs = require('fs');
+			var path = require('path');
 
 			var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
   			mode: "application/xml",
@@ -158,7 +159,7 @@
 					$('#settings').modal();	
 					fs.readFile('config.json',function (err, data) {
 						if (err) {
-							ShowError(err.toString());
+							showError(err.toString());
 							return;
 						}						
 						var config = JSON.parse(data);						
@@ -176,9 +177,9 @@
 					};
 					fs.writeFile('config.json',JSON.stringify(config),function (err){
 						if (err)
-							ShowError(err.toString());
+							showError(err.toString());
 						else
-					 		ShowSuccess("保存成功");
+					 		showSuccess("保存成功");
 					});
 				});
 
@@ -187,7 +188,7 @@
 					btn.button('loading');
 					$("#div-file-list").empty()				
 					fs.readFile('config.json',function(err,data){
-						if (err) alert(err);
+						if (err) showError(err.toString());
 						var configFile = JSON.parse(data);
 						var scanProjectAddress = configFile.scanProjectAddress;
 						var scanFileFilter = configFile.scanFileFilter;
@@ -199,7 +200,8 @@
 				});
 
 				$('#btn-temp').click(function() {
-					
+						showError((typeof $('#div-file-list')) + "<br />" + (typeof $('#abc')) );
+
 				});
 
 			});

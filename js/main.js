@@ -1,4 +1,4 @@
-function ShowSuccess (message){
+function showSuccess (message){
 	BootstrapDialog.show({
 		title: '成功',
 		message: message,
@@ -16,7 +16,7 @@ function ShowSuccess (message){
 	});
 }
 
-function ShowError (message) {
+function showError (message) {
 	BootstrapDialog.show({
 		title: '错误',
 		message: message,
@@ -24,7 +24,7 @@ function ShowError (message) {
 		buttons: [{
 			id: 'btn-error',
 			icon: 'glyphicon glyphicon-fire',
-			lable: 'OK',
+			label: 'OK',
 			cssClass: 'btn-danger',
 			autospin: false,
 			action: function (dialogRef) {
@@ -34,40 +34,41 @@ function ShowError (message) {
 	});
 }
 
-function scanFile(path,scanFileFilter) {
-	if(fs.statSync(path).isDirectory()) {
-		fs.readdir(path,function(err,files) {
-			if(err) return;
-			$.each(files,function() {
-				var file = fs.statSync(path+"\\"+this.toString());
-				var fileName = this.toString();
-				if(file.isDirectory()) {
-					scanFile(path+"\\"+fileName,scanFileFilter);
-				}
-				else {
-					if(file.isFile()) {
-						$.each(scanFileFilter,function() {
-							if(fileName.match(this)) {
-								var filePath = path.toString()+"\\"+fileName.toString();	
-								filePath=filePath.replace(/\\/g,"\\\\");
-								$('#div-file-list').append("<a href=\"#\" class=\"list-group-item list-group-item-success\" onclick=\"showFileContent(\'"+filePath+"\')\">" 
-																			+fileName
-																			+"</a>");
-							}	
-						});
-					}
-				}
+function scanFile(filePath,scanFileFilter) {
+	var fileStat = fs.statSync(filePath);
+	if(fileStat.isDirectory()) {
+		fs.readdir(filePath,function(err,childPaths) {
+			if(err) { 
+				showError(err.toString());
+				return;
+			}
+			$.each(childPaths,function() {
+				var childPath = path.join(filePath,this.toString());
+				scanFile(childPath,scanFileFilter);
 			});
 		});
+	}
+	if (fileStat.isFile()) {
+		var fileName = path.basename(filePath);
+		$.each(scanFileFilter,function() {
+			if(fileName.match(this) == null) return;
+			var a = document.createElement("A");
+			var text = document.createTextNode(fileName);
+			a.appendChild(text);
+			a.href = '#';
+			a.className = 'list-group-item list-group-item-success';
+			a.addEventListener("click", function(){ showFileContent(filePath) }, false);
+			$('#div-file-list').append(a);
+	 	});
 	}
 }
 
 function showFileContent(filePath) {
-		fs.readFile(filePath,function (err, data) {
-							if (err) {
-								ShowError(err.toString());
-								return;
-							}						
-							editor.setValue(String(data));
-						});	
+	fs.readFile(filePath,function (err, data) {
+		if (err) {
+			showError(err.toString());
+			return;
+		}						
+		editor.setValue(String(data));
+	});	
 }
