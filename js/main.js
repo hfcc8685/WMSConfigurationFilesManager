@@ -37,6 +37,8 @@ function showError (message) {
 function scanFile(filePath,scanFileFilter) {
 	var fileStat = fs.statSync(filePath);
 	if(fileStat.isDirectory()) {
+		var temp = filePath.split(path.sep);
+		createFolder(temp[temp.length-1]);		
 		fs.readdir(filePath,function(err,childPaths) {
 			if(err) { 
 				showError(err.toString());
@@ -53,11 +55,12 @@ function scanFile(filePath,scanFileFilter) {
 		$.each(scanFileFilter,function() {
 			if(fileName.match(this) == null) return;
 			var a = document.createElement("A");
-			var text = document.createTextNode(fileName);
-			a.appendChild(text);
+			a.appendChild(document.createTextNode(fileName));
 			a.href = '#';
 			a.className = 'list-group-item list-group-item-success';
 			a.addEventListener("click", function(){ showFileContent(filePath) }, false);
+			//if ($('#DivID').length) {
+    	//}
 			$('#div-file-list').append(a);
 	 	});
 	}
@@ -71,4 +74,11 @@ function showFileContent(filePath) {
 		}						
 		editor.setValue(String(data));
 	});	
+}
+
+function createFolder(folderName) {
+	var div = document.createElement("div");
+	div.appendChild(document.createTextNode(folderName));
+	div.className = 'list-group-item list-group-item-info';
+	$('#div-file-list').append(div);
 }

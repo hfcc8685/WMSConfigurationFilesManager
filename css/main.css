@@ -24,7 +24,7 @@ textarea {
 	-webkit-app-region: no-drag;
 }
 
-.panel-body {
+#panel-file-show, #panel-file-list{
 	height: 700px;
 }
 
