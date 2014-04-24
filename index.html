@@ -11,36 +11,16 @@
 		<link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body>
-		<!--titleBar Start-->
-		<div id="top-titlebar" class="top-titlebar">
-			<div class="top-titlebar-icon">
-				<img id="top-titlebaricon" src="resources/top-titlebar.png"/>
-			</div>
-			<div class="top-titlebar-text">WMSCFM</div>
-			<div id="top-titlebar-settings-button" class="top-titlebar-settings-button iconButton" aria-hidden="true"
-				data-toggle="tooltip" data-placement="left" title data-original-title="设置">
-				<span class="glyphicon glyphicon-cog"></span>
-			</div>
-			<div id="top-titlebar-close-button" class="top-titlebar-close-button iconButton" aria-hidden="true">
-				<span class="glyphicon glyphicon-remove"></span>
-			</div>
-			<div class="top-titlebar-divider"></div>
-		</div>	
-		<!--titleBar end-->
 		
-		<div class="btn-toolbar" role="toolbar">
-			<div class="btn-group">
-				<button type="button" class="btn btn-success" id="btn-temp">
-					<span class="glyphicon glyphicon-pencil"></span> 修改配置文件为测试环境
-				</button>
-				<button type="button" class="btn btn-warning">
-					<span class="glyphicon glyphicon-pencil"></span> 修改配置文件为预发布环境
-				</button>
-				<button type="button" class="btn btn-danger">
-					<span class="glyphicon glyphicon-pencil"></span> 修改配置文件为线上环境
-				</button>
-			</div>
-		</div>
+		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="nav-title">
+			  <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-fire"></span> WMSCFM</a>
+				<a href="#" class="btn navbar-btn navbar-right" id="nav-title-close">
+					<span class="glyphicon glyphicon-remove"></span>
+				</a>
+				<a href="#" class="btn navbar-btn navbar-right" id="nav-title-settings">
+					<span class="glyphicon glyphicon-cog"></span>
+				</a>
+		</nav>
 
 		<!--main start-->
 	  <div class="content">
@@ -50,10 +30,23 @@
 						<div class="panel panel-primary">
 							<div class="panel-heading">
 								<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-th-list"></span> 配置文件</h4>
-								<button type="button" class="btn btn-info pull-right" id="button-scanfile" data-loading-text="扫描中...">
-									<span class="glyphicon glyphicon-search"></span> 开始扫描配置文件
-								</button>
-							  <div class="clearfix"></div>
+								<div class="btn-group pull-right">
+									<button type="button" class="btn btn-info" id="button-scanfile" data-loading-text="扫描中...">
+										<span class="glyphicon glyphicon-search"></span> 开始扫描配置文件
+									</button>
+ 									<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+    								<span class="caret"></span>
+    								<span class="sr-only">Toggle Dropdown</span>
+  								</button>
+									<ul class="dropdown-menu" role="menu">
+    								<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为测试环境</a></li>
+										<li class="divider"></li>
+    								<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为预发布环境</a></li>
+    								<li class="divider"></li>
+										<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为线上环境</a></li>
+  								</ul>
+						 	</div>
+							<div class="clearfix"></div>
  							</div>
   						<div class="panel-body" id="panel-file-list">
 								<div class="list-group" id="div-file-list">
@@ -140,7 +133,7 @@
 
 			function focusTitlebars(focus) {
   			var bg_color = focus ? "#3a3d3d" : "#7a7c7c";    
-  			$("#top-titlebar").css("background-color",bg_color);
+  			$("#nav-title").css("background-color",bg_color);
 			}
 
 			$(function(){
@@ -153,12 +146,11 @@
 					focusTitlebars(false);
     		});
 
-				$('#top-titlebar-close-button').click(function(){
+				$('#nav-title-close').click(function(){
 					window.close();
 				});			
 
-				$('#top-titlebar-settings-button').tooltip();
-				$('#top-titlebar-settings-button').click(function(){
+				$('#nav-title-settings').click(function(){
 					$('#settings').modal();	
 					fs.readFile('config.json',function (err, data) {
 						if (err) {
