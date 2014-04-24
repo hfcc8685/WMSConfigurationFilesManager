@@ -4,8 +4,8 @@
 	"version": "0.0.1",
 	"window": {
 		"title": "WMSCFM",
-		"toolbar": true,
-		"frame": true,
+		"toolbar": false,
+		"frame": false,
 		"width": 1440,
 		"height": 900,
 		"min_width": 1440,

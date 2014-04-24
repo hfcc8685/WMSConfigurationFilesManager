@@ -36,9 +36,7 @@ function showError (message) {
 
 function scanFile(filePath,scanFileFilter) {
 	var fileStat = fs.statSync(filePath);
-	if(fileStat.isDirectory()) {
-		var temp = filePath.split(path.sep);
-		createFolder(temp[temp.length-1]);		
+	if(fileStat.isDirectory()) {	
 		fs.readdir(filePath,function(err,childPaths) {
 			if(err) { 
 				showError(err.toString());
@@ -55,10 +53,23 @@ function scanFile(filePath,scanFileFilter) {
 		$.each(scanFileFilter,function() {
 			if(fileName.match(this) == null) return;
 			var a = document.createElement("A");
-			a.appendChild(document.createTextNode(fileName));
+
+			var icon = document.createElement("span");
+			icon.className = 'glyphicon glyphicon-file';			
+			a.appendChild(icon);
+			a.appendChild(document.createTextNode(" "+fileName));
 			a.href = '#';
-			a.className = 'list-group-item list-group-item-success';
-			a.addEventListener("click", function(){ showFileContent(filePath) }, false);
+			a.className = 'list-group-item';
+			// data-toggle="tooltip" data-placement="left" title="Tooltip on left"
+			a.setAttribute("data-toggle", "tooltip");
+			a.setAttribute("data-placement", "left");
+			a.setAttribute("title", filePath);
+
+			a.addEventListener("click", function(){
+			  $('.list-group-item').removeClass('active');	
+				$(this).addClass("active");
+				showFileContent(filePath);
+		 	}, false);
 			//if ($('#DivID').length) {
     	//}
 			$('#div-file-list').append(a);

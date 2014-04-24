@@ -30,12 +30,7 @@
 		
 		<div class="btn-toolbar" role="toolbar">
 			<div class="btn-group">
-				<button type="button" class="btn btn-success" id="button-scanfile" data-loading-text="扫描中...">
-					<span class="glyphicon glyphicon-search"></span> 开始扫描配置文件
-				</button>
-			</div>
-			<div class="btn-group">
-				<button type="button" class="btn btn-info" id="btn-temp">
+				<button type="button" class="btn btn-success" id="btn-temp">
 					<span class="glyphicon glyphicon-pencil"></span> 修改配置文件为测试环境
 				</button>
 				<button type="button" class="btn btn-warning">
@@ -54,7 +49,11 @@
 					<div class="col-lg-4">
 						<div class="panel panel-primary">
 							<div class="panel-heading">
-    						<h3 class="panel-title">符合条件的配置文件</h3>
+								<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-th-list"></span> 配置文件</h4>
+								<button type="button" class="btn btn-info pull-right" id="button-scanfile" data-loading-text="扫描中...">
+									<span class="glyphicon glyphicon-search"></span> 开始扫描配置文件
+								</button>
+							  <div class="clearfix"></div>
  							</div>
   						<div class="panel-body" id="panel-file-list">
 								<div class="list-group" id="div-file-list">
@@ -65,7 +64,11 @@
 					<div class="col-lg-8">
 						<div class="panel panel-success">
 							<div class="panel-heading">
-    						<h3 class="panel-title">配置文件浏览编辑</h3>
+								<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-edit"></span> 配置文件编辑器</h4>
+								<button type="button" class="btn btn-success pull-right">
+									<span class="glyphicon glyphicon-floppy-saved"></span> 保存
+								</button>
+								<div class="clearfix"></div>
  							</div>
   						<div class="panel-body" id="panel-file-show">
 								<textarea id="code"></textarea> 		

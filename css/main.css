@@ -4,11 +4,15 @@
 
 body {
 	padding-top:0px;
+	background-color: rgb(240, 246, 252);
 }
 textarea {
 	resize:none; 
 }
-
+h4 {
+	height: 34px;
+	line-height: 34px;
+}
 .btn-toolbar {
 	position: absolute;
 	left: 15px;
