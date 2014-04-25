@@ -7,13 +7,12 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-dialog.min.css">
 		<link rel="stylesheet" type="text/css" href="codemirror/lib/codemirror.css">
-		<link rel="stylesheet" type="text/css" href="css/titlebar.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body>
 		
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="nav-title">
-			  <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-fire"></span> WMSCFM</a>
+			  <div class="navbar-brand"><span class="glyphicon glyphicon-fire"></span> WMSCFM</div>
 				<a href="#" class="btn navbar-btn navbar-right" id="nav-title-close">
 					<span class="glyphicon glyphicon-remove"></span>
 				</a>
@@ -25,51 +24,45 @@
 		<!--main start-->
 	  <div class="content">
 			<div class="container-fluid">
-				<div class="row">
-					<div class="col-lg-4">
-						<div class="panel panel-primary">
-							<div class="panel-heading">
-								<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-th-list"></span> 配置文件</h4>
-								<div class="btn-group pull-right">
-									<button type="button" class="btn btn-info" id="button-scanfile" data-loading-text="扫描中...">
-										<span class="glyphicon glyphicon-search"></span> 开始扫描配置文件
-									</button>
- 									<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-    								<span class="caret"></span>
-    								<span class="sr-only">Toggle Dropdown</span>
-  								</button>
-									<ul class="dropdown-menu" role="menu">
-    								<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为测试环境</a></li>
-										<li class="divider"></li>
-    								<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为预发布环境</a></li>
-    								<li class="divider"></li>
-										<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为线上环境</a></li>
-  								</ul>
-						 	</div>
-							<div class="clearfix"></div>
- 							</div>
-  						<div class="panel-body" id="panel-file-list">
-								<div class="list-group" id="div-file-list">
-								</div>
-							</div>
-						</div>
+			<div class="panel panel-primary pull-left" id="panel-file-list">
+				<div class="panel-heading">
+					<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-th-list"></span> 配置文件</h4>
+					<div class="btn-group pull-right">
+						<button type="button" class="btn btn-info" id="button-scanfile" data-loading-text="扫描中...">
+							<span class="glyphicon glyphicon-search"></span> 开始扫描配置文件
+						</button>
+ 						<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
+    					<span class="caret"></span>
+    					<span class="sr-only">Toggle Dropdown</span>
+  					</button>
+						<ul class="dropdown-menu" role="menu">
+    					<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为测试环境</a></li>
+							<li class="divider"></li>
+    					<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为预发布环境</a></li>
+    					<li class="divider"></li>
+							<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为线上环境</a></li>
+  					</ul>
 					</div>
-					<div class="col-lg-8">
-						<div class="panel panel-success">
-							<div class="panel-heading">
-								<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-edit"></span> 配置文件编辑器</h4>
-								<button type="button" class="btn btn-success pull-right">
-									<span class="glyphicon glyphicon-floppy-saved"></span> 保存
-								</button>
-								<div class="clearfix"></div>
- 							</div>
-  						<div class="panel-body" id="panel-file-show">
-								<textarea id="code"></textarea> 		
-							</div>
-						</div>
-					</div>
+					<div class="clearfix"></div>
+ 				</div>
+  			<div class="panel-body">
+					<div class="list-group" id="div-file-list"></div>
 				</div>
 			</div>
+			<div class="panel panel-success pull-left" id="panel-file-show">
+				<div class="panel-heading">
+					<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-edit"></span> 配置文件编辑器</h4>
+					<button type="button" class="btn btn-success pull-right" id="btn-save-singleFile">
+						<span class="glyphicon glyphicon-floppy-saved"></span> 保存
+					</button>
+					<div class="clearfix"></div>
+ 				</div>
+  			<div class="panel-body">
+					<textarea id="code"></textarea> 		
+				</div>
+			</div>
+			<div class="clearfix"></div>
+		</div>
 		</div>
 		<!--main end-->
 
@@ -123,6 +116,9 @@
 		<script type="text/javascript">
 			var fs = require('fs');
 			var path = require('path');
+			var gui = require('nw.gui');
+			var win = gui.Window.get();
+			var currentFilePath;
 
 			var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
   			mode: "application/xml",
@@ -130,24 +126,18 @@
   			lineNumbers: true,
   			lineWrapping: true
 			});
-
-			function focusTitlebars(focus) {
-  			var bg_color = focus ? "#3a3d3d" : "#7a7c7c";    
-  			$("#nav-title").css("background-color",bg_color);
-			}
-
+			
 			$(function(){
+				$(window).on('focus', function () {
+					$("#nav-title").css("background-color","#222222");
+  			});
 
-				$(window).focus(function() {
-       		focusTitlebars(true);
-    		});
-
-    		$(window).blur(function() {
-					focusTitlebars(false);
-    		});
+  			$(window).on('blur', function () {
+					$("#nav-title").css("background-color","#7a7c7c");
+  			});
 
 				$('#nav-title-close').click(function(){
-					window.close();
+					win.close();
 				});			
 
 				$('#nav-title-settings').click(function(){
@@ -194,7 +184,17 @@
 					});
 				});
 
-				$('#btn-temp').click(function() {
+				$('#btn-save-singleFile').click(function() {
+					if (currentFilePath) {
+						var editfile = editor.getValue(); 
+						fs.writeFile(currentFilePath, editfile,function (err){
+						if (err)
+							showError(err.toString());
+						else
+					 		showSuccess("保存成功");
+					});
+						
+					}
 				});
 
 			});

@@ -1,1 +1,1 @@
-{"scanProjectAddress":["/Users/hanfeng/github/WMSConfigurationFilesManager/addressTest"],"scanFileFilter":["\\web\\.config","\\PlugInConfig\\.xml","\\Intime.*.Data.Repositories.dll\\.config","\\w*\\.xml"]}
+{"scanProjectAddress":["D:\\NodeProject\\WMSConfigurationFilesManager\\addressTest","D:\\NodeProject\\WMSConfigurationFilesManager\\addressTest","D:\\NodeProject\\WMSConfigurationFilesManager\\addressTest"],"scanFileFilter":["\\web\\.config","\\PlugInConfig\\.xml","\\Intime.*.Data.Repositories.dll\\.config","\\w*\\.xml"]}

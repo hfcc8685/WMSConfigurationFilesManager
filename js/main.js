@@ -83,6 +83,7 @@ function showFileContent(filePath) {
 			showError(err.toString());
 			return;
 		}						
+		currentFilePath = filePath;
 		editor.setValue(String(data));
 	});	
 }

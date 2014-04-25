@@ -6,10 +6,14 @@
 		"title": "WMSCFM",
 		"toolbar": false,
 		"frame": false,
-		"width": 1200,
+		"width": 1300,
 		"height": 800,
+		"max-width": 1300,
+		"min_width": 1300,
+		"max-height": 800,
+		"min_height": 800,
 		"position": "center",
-		"resizable": true
+		"resizable": false
 	},
 	"webkit": {
 		"plugin": true

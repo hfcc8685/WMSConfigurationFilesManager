@@ -1,6 +1,28 @@
 body {
 	padding-top: 70px; 
 	background-color: rgb(240, 246, 252);
+	overflow-x: hidden;
+	overflow-y: hidden;
+	-webkit-app-region: drag;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+ 
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+  //border-radius: 10px;
+}
+ 
+::-webkit-scrollbar-thumb {
+//border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px #428BCA; 
+}
+
+.panel,textarea,.btn,a,.content,.modal {
+	-webkit-user-select: none;
+  -webkit-app-region: no-drag;
 }
 
 textarea {
@@ -12,11 +34,32 @@ h4 {
 	line-height: 34px;
 }
 
-/*#panel-file-show, #panel-file-list{
-	height: 700px;
-}*/
+#panel-file-list {
+	width: 450px;	
+	height: 710px;
+  max-height: 710px;
+  overflow-y: hidden; 
+	overflow-x: hidden;
+}
+
+#panel-file-show {
+	margin-left: 50px;
+	width: 800px;
+	height: 710px;
+	position: fixed;
+	top: 70px;
+	right: 15px;
+}
+
+#div-file-list {
+	height: 600px;
+	width: 420px;
+	overflow-y: auto;
+	overflow-x: auto;
+}
 
 .CodeMirror {
+	width: 100%;
 	height: 100%;
 }
 
@@ -24,3 +67,5 @@ h4 {
 	overflow-y:hidden;
 	overflow-x:hidden;
 }*/
+
+
