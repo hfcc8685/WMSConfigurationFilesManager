@@ -53,25 +53,20 @@ function scanFile(filePath,scanFileFilter) {
 		$.each(scanFileFilter,function() {
 			if(fileName.match(this) == null) return;
 			var a = document.createElement("A");
-
 			var icon = document.createElement("span");
 			icon.className = 'glyphicon glyphicon-file';			
 			a.appendChild(icon);
 			a.appendChild(document.createTextNode(" "+fileName));
 			a.href = '#';
-			a.className = 'list-group-item';
-			// data-toggle="tooltip" data-placement="left" title="Tooltip on left"
+			a.className = 'list-group-item filePath';
 			a.setAttribute("data-toggle", "tooltip");
 			a.setAttribute("data-placement", "left");
 			a.setAttribute("title", filePath);
-
 			a.addEventListener("click", function(){
 			  $('.list-group-item').removeClass('active');	
 				$(this).addClass("active");
 				showFileContent(filePath);
 		 	}, false);
-			//if ($('#DivID').length) {
-    	//}
 			$('#div-file-list').append(a);
 	 	});
 	}
@@ -86,11 +81,4 @@ function showFileContent(filePath) {
 		currentFilePath = filePath;
 		editor.setValue(String(data));
 	});	
-}
-
-function createFolder(folderName) {
-	var div = document.createElement("div");
-	div.appendChild(document.createTextNode(folderName));
-	div.className = 'list-group-item list-group-item-info';
-	$('#div-file-list').append(div);
 }

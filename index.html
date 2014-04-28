@@ -7,12 +7,13 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-dialog.min.css">
 		<link rel="stylesheet" type="text/css" href="codemirror/lib/codemirror.css">
+		<link rel="stylesheet" type="text/css" href="codemirror/theme/solarized.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body>
 		
 		<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="nav-title">
-			  <div class="navbar-brand"><span class="glyphicon glyphicon-fire"></span> WMSCFM</div>
+			  <div class="navbar-brand"><span class="glyphicon glyphicon-fire text-danger"></span> WMSCFM</div>
 				<a href="#" class="btn navbar-btn navbar-right" id="nav-title-close">
 					<span class="glyphicon glyphicon-remove"></span>
 				</a>
@@ -24,7 +25,7 @@
 		<!--main start-->
 	  <div class="content">
 			<div class="container-fluid">
-			<div class="panel panel-primary pull-left" id="panel-file-list">
+				<div class="panel panel-primary pull-left" id="panel-file-list">
 				<div class="panel-heading">
 					<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-th-list"></span> 配置文件</h4>
 					<div class="btn-group pull-right">
@@ -36,11 +37,11 @@
     					<span class="sr-only">Toggle Dropdown</span>
   					</button>
 						<ul class="dropdown-menu" role="menu">
-    					<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为测试环境</a></li>
+							<li><a href="#" id="changeConfigToTest"><span class="glyphicon glyphicon-pencil"></span> 修改为测试环境</a></li>
 							<li class="divider"></li>
-    					<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为预发布环境</a></li>
+    					<li><a href="#" id="changeConfigToPre"><span class="glyphicon glyphicon-pencil"></span> 修改为预发布环境</a></li>
     					<li class="divider"></li>
-							<li><a href="#"><span class="glyphicon glyphicon-pencil"></span> 修改为线上环境</a></li>
+							<li><a href="#" id="changeConfigToLine"><span class="glyphicon glyphicon-pencil"></span> 修改为线上环境</a></li>
   					</ul>
 					</div>
 					<div class="clearfix"></div>
@@ -49,7 +50,7 @@
 					<div class="list-group" id="div-file-list"></div>
 				</div>
 			</div>
-			<div class="panel panel-success pull-left" id="panel-file-show">
+				<div class="panel panel-success pull-left" id="panel-file-show">
 				<div class="panel-heading">
 					<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-edit"></span> 配置文件编辑器</h4>
 					<button type="button" class="btn btn-success pull-right" id="btn-save-singleFile">
@@ -57,12 +58,12 @@
 					</button>
 					<div class="clearfix"></div>
  				</div>
-  			<div class="panel-body">
+  			<div class="panel-body" id="div-file-show">
 					<textarea id="code"></textarea> 		
 				</div>
 			</div>
-			<div class="clearfix"></div>
-		</div>
+				<div class="clearfix"></div>
+			</div>
 		</div>
 		<!--main end-->
 
@@ -71,36 +72,32 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        		<h4 class="modal-title" id="settingslabel">软件设置</h4>
+						<h3 class="modal-title" id="settingslabel"><span class="glyphicon glyphicon-cog"></span> 软件设置</h3>
 					</div>
 					<div class="modal-body">
-
-						<div class="panel panel-success">
-							<div class="panel-heading"><h3 class="panel-title">项目路径(换行分割)</h3></div>									
+						<div class="panel panel-success" id="panel-config">
+							<div class="panel-heading"><h3 class="panel-title"><span class="glyphicon glyphicon-home"></span> 项目路径(换行分割)</h3></div>									
 							<div class="panel-body">
-							  <textarea class="form-control" rows="5" id="textarea-config-projectAddress"></textarea>	
+							  <textarea class="form-control" rows="3" id="textarea-config-projectAddress"></textarea>	
 							</div>
 						</div>
-
 						<div class="panel panel-info">
-							<div class="panel-heading"><h3 class="panel-title">文件过滤(换行分割)</h3></div>
+							<div class="panel-heading"><h3 class="panel-title"><span class="glyphicon glyphicon-file"></span> 文件过滤(换行分割)</h3></div>
 							<div class="panel-body">
-								<textarea class="form-control" rows="5" id="textarea-config-file"></textarea>
+								<textarea class="form-control" rows="3" id="textarea-config-file"></textarea>
 							</div>
 						</div>
-
 						<div class="panel panel-primary">
-							<div class="panel-heading"><h3 class="panel-title">字符替换</h3></div>
-							<div class="panel-body">test</div>
+							<div class="panel-heading"><h3 class="panel-title"><span class="glyphicon glyphicon-list-alt"></span> 字符替换(换行分割每项,$分割每项里的配置)</h3></div>
+							<div class="panel-body">
+								<textarea class="form-control" rows="3" id="textarea-config-string"></textarea>
+							</div>
 						</div>
-
 					</div>
-
 					<div class="modal-footer">
-        		<button type="button" class="btn btn-primary" id="button-config-save">保存</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<div>
+        		<button type="button" class="btn btn-primary" id="button-config-save"><span class="glyphicon glyphicon-floppy-saved"></span> 保存</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-floppy-remove"></span> 关闭</button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -112,92 +109,7 @@
 		<script src="codemirror/lib/codemirror.js"></script>
 		<script src="codemirror/mode/xml/xml.js"></script>
 		<script src="codemirror/addon/selection/active-line.js"></script>
+		<script src="js/userEventHandle.js"></script>
 		<script src="js/main.js"></script>
-		<script type="text/javascript">
-			var fs = require('fs');
-			var path = require('path');
-			var gui = require('nw.gui');
-			var win = gui.Window.get();
-			var currentFilePath;
-
-			var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-  			mode: "application/xml",
-  			styleActiveLine: true,
-  			lineNumbers: true,
-  			lineWrapping: true
-			});
-			
-			$(function(){
-				$(window).on('focus', function () {
-					$("#nav-title").css("background-color","#222222");
-  			});
-
-  			$(window).on('blur', function () {
-					$("#nav-title").css("background-color","#7a7c7c");
-  			});
-
-				$('#nav-title-close').click(function(){
-					win.close();
-				});			
-
-				$('#nav-title-settings').click(function(){
-					$('#settings').modal();	
-					fs.readFile('config.json',function (err, data) {
-						if (err) {
-							showError(err.toString());
-							return;
-						}						
-						var config = JSON.parse(data);						
-						$('#textarea-config-projectAddress').val(config.scanProjectAddress.join("\n"));
-						$('#textarea-config-file').val(config.scanFileFilter.join("\n"));
-					});
-				});
-
-				$('#button-config-save').click(function() {
-				  var scanProjectAddress = $('#textarea-config-projectAddress').val().split("\n");
-					var scanFileFilter = $('#textarea-config-file').val().split("\n");
-					var config = {
-						"scanProjectAddress" : scanProjectAddress,
-						"scanFileFilter" : scanFileFilter
-					};
-					fs.writeFile('config.json',JSON.stringify(config),function (err){
-						if (err)
-							showError(err.toString());
-						else
-					 		showSuccess("保存成功");
-					});
-				});
-
-				$('#button-scanfile').click(function() {
-					var btn = $(this);					
-					btn.button('loading');
-					$("#div-file-list").empty()				
-					fs.readFile('config.json',function(err,data){
-						if (err) showError(err.toString());
-						var configFile = JSON.parse(data);
-						var scanProjectAddress = configFile.scanProjectAddress;
-						var scanFileFilter = configFile.scanFileFilter;
-						$.each(scanProjectAddress,function() {
-							scanFile(this.toString(),scanFileFilter);
-						});
-						btn.button('reset');
-					});
-				});
-
-				$('#btn-save-singleFile').click(function() {
-					if (currentFilePath) {
-						var editfile = editor.getValue(); 
-						fs.writeFile(currentFilePath, editfile,function (err){
-						if (err)
-							showError(err.toString());
-						else
-					 		showSuccess("保存成功");
-					});
-						
-					}
-				});
-
-			});
-		</script>
   </body>
 </html>
