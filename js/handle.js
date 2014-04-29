@@ -34,21 +34,31 @@ function showError (message) {
 	});
 }
 
-function scanFile(filePath,scanFileFilter) {
+function scanFile(filePath,scanFileFilter,callback) {
 	var fileStat = fs.statSync(filePath);
 	if(fileStat.isDirectory()) {	
 		fs.readdir(filePath,function(err,childPaths) {
 			if(err) { 
 				showError(err.toString());
+        callback(err);
 				return;
 			}
-			$.each(childPaths,function() {
-				var childPath = path.join(filePath,this.toString());
-				scanFile(childPath,scanFileFilter);
-			});
+			if(childPaths.length >0) {
+        var asyncTasks = []; 
+        $.each(childPaths,function() {
+					var childPath = path.join(filePath,this.toString());
+          asyncTasks.push(function(childCallback) {
+            scanFile(childPath,scanFileFilter,childCallback);
+          });
+				});
+        async.parallel(asyncTasks,function() { 
+          callback(); 
+        });
+			} else {
+				callback();
+			}
 		});
-	}
-	if (fileStat.isFile()) {
+	} else if (fileStat.isFile()) {
 		var fileName = path.basename(filePath);
 		$.each(scanFileFilter,function() {
 			if(fileName.match(this) == null) return;
@@ -69,6 +79,9 @@ function scanFile(filePath,scanFileFilter) {
 		 	}, false);
 			$('#div-file-list').append(a);
 	 	});
+		callback();
+	} else {
+		callback();
 	}
 }
 

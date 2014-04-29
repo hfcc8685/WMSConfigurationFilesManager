@@ -78,15 +78,22 @@ $(function(){
 		fs.readFile('config.json',function(err,data){
 			if (err) { 
 				showError(err.toString());
+        btn.button('reset');
 				return;
 			}
 			var configFile = JSON.parse(data);
 			var scanProjectAddress = configFile.scanProjectAddress;
 			var scanFileFilter = configFile.scanFileFilter;
+			var asyncTasks = [];
 			$.each(scanProjectAddress,function() {
-					scanFile(this.toString(), scanFileFilter);					
+          var filePath = this.toString();
+					asyncTasks.push(function(callback) {
+						scanFile(filePath, scanFileFilter, callback);
+					});					
 			});
-			btn.button('reset');
+      async.parallel(asyncTasks,function() {
+        btn.button('reset');
+      });
 		});
 	});
 
