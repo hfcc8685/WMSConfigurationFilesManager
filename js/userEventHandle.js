@@ -1,7 +1,9 @@
 var fs = require('fs');
 var path = require('path');
 var gui = require('nw.gui');
+var async = require('async');
 var win = gui.Window.get();
+
 var currentFilePath;
 
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
@@ -67,7 +69,7 @@ $(function(){
 			else
 				showSuccess("保存成功");
 		});
-});
+	});
 
 	$('#button-scanfile').click(function() {
 		var btn = $(this);					
@@ -82,7 +84,7 @@ $(function(){
 			var scanProjectAddress = configFile.scanProjectAddress;
 			var scanFileFilter = configFile.scanFileFilter;
 			$.each(scanProjectAddress,function() {
-				scanFile(this.toString(),scanFileFilter);
+					scanFile(this.toString(), scanFileFilter);					
 			});
 			btn.button('reset');
 		});
@@ -90,13 +92,19 @@ $(function(){
 
 	$('#btn-save-singleFile').click(function() {
 		if (currentFilePath) {
-			var editfile = editor.getValue(); 
-			fs.writeFile(currentFilePath, editfile,function (err){
-				if (err)
-					showError(err.toString());
-				else
-					showSuccess("保存成功");
-			});	
+			var editfile = editor.getValue();
+		 	fs.chmod(currentFilePath, '0777', function (err) {
+   			if (err) {
+      		showError(err.toString());
+					return;
+				}
+				fs.writeFile(currentFilePath, editfile,function (err){
+					if (err)
+						showError(err.toString());
+					else
+						showSuccess("保存成功");
+				});	
+			});
 		}
 	});
 	
@@ -122,24 +130,45 @@ function changeAllConfigFile(fromOne,fromTwo,to){
 		$.each(config.stringReplaceRule,function() {
 			tempStringReplaceRule.push(this);
 		});
+		var asyncTasks = [];
 		$('#div-file-list .filePath').each(function() {
-			(function(filePath) {
-				fs.readFile(filePath,'utf8',function(err,data){
-					if (err) { 
-						showError(err.toString());
-						return;
-					}
-					$.each(tempStringReplaceRule,function(){
-						var regexOne = new RegExp(this[fromOne], "g");
-						var regexTwo = new RegExp(this[fromTwo], "g");
-						data = data.replace(regexOne,this[to]);
-						data = data.replace(regexTwo,this[to]);
-					});
-					fs.writeFile(filePath, data, 'utf8', function (err){
-						if(err) showError(err.toString());
-					});
-				});
-			})( $(this).attr('title'));	
+			var filePath = $(this).attr('title');
+			asyncTasks.push(function(callback){
+				changeOneConfigFile(filePath,tempStringReplaceRule,fromOne,fromTwo,to,callback);
+			});	
+		});
+		async.parallel(asyncTasks, function(){
+			showSuccess("执行完毕.");
+		});		
+	});
+}
+
+function changeOneConfigFile(filePath, stringReplaceRule,fromOne,fromTwo,to,callback) {
+	fs.chmod(filePath, '0777', function (err) {
+   	if (err) {
+    	showError(err.toString());
+			callback();
+			return;
+		}
+		fs.readFile(filePath,'utf8',function(err,data){
+			if (err) { 
+				showError(err.toString());
+				callback();
+				return;
+			}
+			$.each(stringReplaceRule,function(){
+				var regexOne = new RegExp(this[fromOne], "g");
+				var regexTwo = new RegExp(this[fromTwo], "g");
+				data = data.replace(regexOne,this[to]);
+				data = data.replace(regexTwo,this[to]);
+			});
+			fs.writeFile(filePath, data, 'utf8', function (err){
+				if(err) {
+					showError(err.toString());
+					callback();
+				}
+				callback();
+			});
 		});
 	});
 }
