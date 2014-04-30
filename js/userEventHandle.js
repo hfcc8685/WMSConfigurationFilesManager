@@ -3,6 +3,7 @@ var path = require('path');
 var gui = require('nw.gui');
 var async = require('async');
 var win = gui.Window.get();
+var wmscfmConfigFilePath = path.join(path.dirname(process.execPath),"config.json");
 
 var currentFilePath;
 
@@ -29,7 +30,7 @@ $(function(){
 
 	$('#nav-title-settings').click(function(){
 		$('#settings').modal();	
-		fs.readFile('config.json',function (err, data) {
+		fs.readFile(wmscfmConfigFilePath,function (err, data) {
 			if (err) {
 				showError(err.toString());
 				return;
@@ -63,7 +64,7 @@ $(function(){
 			"scanFileFilter" : scanFileFilter,
 		  "stringReplaceRule" : stringReplaceRule
 		};
-		fs.writeFile('config.json',JSON.stringify(config),function (err){
+		fs.writeFile(wmscfmConfigFilePath,JSON.stringify(config),function (err){
 			if (err)
 				showError(err.toString());
 			else
@@ -75,7 +76,7 @@ $(function(){
 		var btn = $(this);					
 		btn.button('loading');
 		$("#div-file-list").empty()				
-		fs.readFile('config.json',function(err,data){
+		fs.readFile(wmscfmConfigFilePath,function(err,data){
 			if (err) { 
 				showError(err.toString());
         btn.button('reset');
@@ -127,7 +128,7 @@ $(function(){
 });
 
 function changeAllConfigFile(fromOne,fromTwo,to){
-	fs.readFile('config.json',function (err, data) {
+	fs.readFile(wmscfmConfigFilePath,function (err, data) {
 		if (err) {
 			showError(err.toString());
 			return;

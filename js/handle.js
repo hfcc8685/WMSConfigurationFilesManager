@@ -60,7 +60,9 @@ function scanFile(filePath,scanFileFilter,callback) {
 		});
 	} else if (fileStat.isFile()) {
 		var fileName = path.basename(filePath);
+		console.log(fileName);
 		$.each(scanFileFilter,function() {
+			var regexOne = new RegExp(this, "g");
 			if(fileName.match(this) == null) return;
 			var a = document.createElement("A");
 			var icon = document.createElement("span");
