@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var os = require('os');
 var gui = require('nw.gui');
 var async = require('async');
 var win = gui.Window.get();
@@ -100,7 +101,7 @@ $(function(){
 
 	$('#btn-save-singleFile').click(function() {
 		if (currentFilePath) {
-			var editfile = editor.getValue();
+			var editfile = editor.getValue(os.EOL);
 		 	fs.chmod(currentFilePath, '0777', function (err) {
    			if (err) {
       		showError(err.toString());
