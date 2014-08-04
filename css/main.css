@@ -37,8 +37,8 @@ h4 {
 
 #panel-file-list {
 	width: 450px;	
-	height: 710px;
-  max-height: 710px;
+	height: 810px;
+  max-height: 810px;
   overflow-y: hidden; 
 	overflow-x: hidden;
 }
@@ -46,8 +46,8 @@ h4 {
 #panel-file-show {
 	margin-left: 50px;
 	width: 800px;
-	height: 710px;
-	max-height: 710px;
+	height: 810px;
+	max-height: 810px;
 	position: fixed;
 	top: 70px;
 	right: 15px;
@@ -56,7 +56,7 @@ h4 {
 }
 
 #div-file-list {
-	height: 600px;
+	height: 700px;
 	width: 420px;
 	overflow-y: auto;
 	overflow-x: auto;
@@ -64,7 +64,7 @@ h4 {
 
 #div-file-show {
 	width: 800px;
-	height: 650px;
+	height: 750px;
 	margin: 0px;
 	padding: 0px;
 	overflow-y: hidden;
@@ -73,7 +73,7 @@ h4 {
 
 .CodeMirror {
 	width: 800px;
-	height: 650px;
+	height: 750px;
 	overflow-y: auto;
 	overflow-x: hidden;
 }

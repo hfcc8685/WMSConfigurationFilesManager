@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-dialog.min.css">
 		<link rel="stylesheet" type="text/css" href="codemirror/lib/codemirror.css">
-		<link rel="stylesheet" type="text/css" href="codemirror/theme/solarized.css">
+		<link rel="stylesheet" type="text/css" href="codemirror/theme/eclipse.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
   </head>
   <body>
@@ -16,12 +16,14 @@
 			  <div class="navbar-brand"><span class="glyphicon glyphicon-fire text-danger"></span> WMSCFM</div>
 				<a href="#" class="btn navbar-btn navbar-right" id="nav-title-close">
 					<span class="glyphicon glyphicon-remove"></span>
+				</a>				
+				<a href="#" class="btn navbar-btn navbar-right" id="nav-title-minimize">
+					<span class="glyphicon glyphicon-minus"></span>
 				</a>
 				<a href="#" class="btn navbar-btn navbar-right" id="nav-title-settings">
 					<span class="glyphicon glyphicon-cog"></span>
 				</a>
 		</nav>
-
 		<!--main start-->
 	  <div class="content">
 			<div class="container-fluid">
@@ -52,13 +54,13 @@
 			</div>
 				<div class="panel panel-success pull-left" id="panel-file-show">
 				<div class="panel-heading">
-					<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-edit"></span> 配置文件编辑器</h4>
+					<h4 class="panel-title pull-left"><span class="glyphicon glyphicon-edit"></span> 配置文件编辑器 <span id="span-file-address"></span></h4>
 					<button type="button" class="btn btn-success pull-right" id="btn-save-singleFile">
 						<span class="glyphicon glyphicon-floppy-saved"></span> 保存
 					</button>
 					<div class="clearfix"></div>
  				</div>
-  			<div class="panel-body" id="div-file-show">
+  			<div class="panel-body" id="div-file-show">					
 					<textarea id="code"></textarea> 		
 				</div>
 			</div>
@@ -75,6 +77,12 @@
 						<h3 class="modal-title" id="settingslabel"><span class="glyphicon glyphicon-cog"></span> 软件设置</h3>
 					</div>
 					<div class="modal-body">
+						<div class="panel panel-warning">
+							<div class="panel-heading"><h3 class="panel-title"><span class="glyphicon glyphicon-plane"></span> 配置文件路径</h3></div>									
+							<div class="panel-body">
+ 								<span id="panel-title-configAddress"></span>
+							</div>
+						</div>						
 						<div class="panel panel-success" id="panel-config">
 							<div class="panel-heading"><h3 class="panel-title"><span class="glyphicon glyphicon-home"></span> 项目路径(换行分割)</h3></div>									
 							<div class="panel-body">

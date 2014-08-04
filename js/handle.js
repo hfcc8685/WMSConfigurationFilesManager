@@ -55,7 +55,7 @@ function scanFile(filePath,scanFileFilter,callback) {
           callback(); 
         });
 			} else {
-				callback();
+				callback();panel-warning
 			}
 		});
 	} else if (fileStat.isFile()) {
@@ -78,6 +78,7 @@ function scanFile(filePath,scanFileFilter,callback) {
 			  $('.list-group-item').removeClass('active');	
 				$(this).addClass("active");
 				showFileContent(filePath);
+				showFileAddress(filePath);	
 		 	}, false);
 			$('#div-file-list').append(a);
 	 	});
@@ -96,4 +97,15 @@ function showFileContent(filePath) {
 		currentFilePath = filePath;
 		editor.setValue(String(data));
 	});	
+}
+
+function showFileAddress(filePath) { 
+	var dir = path.dirname(filePath);
+	var dirArray = dir.split(path.sep);
+	var showPath = dir;
+	if(dirArray.length >= 2)
+	{
+		showPath = dirArray[dirArray.length-2]+path.sep+dirArray[dirArray.length-1];
+	}
+	$('#span-file-address').text(showPath);
 }

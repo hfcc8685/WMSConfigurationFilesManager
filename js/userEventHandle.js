@@ -13,7 +13,7 @@ var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
   styleActiveLine: true,
   lineNumbers: true,
   lineWrapping: true,
-	theme: "solarized dark"
+	theme: "eclipse"
 });	
 
 $(function(){
@@ -29,8 +29,13 @@ $(function(){
 		win.close();
 	});			
 
+	$('#nav-title-minimize').click(function(){
+		win.minimize();
+	});
+
 	$('#nav-title-settings').click(function(){
-		$('#settings').modal();	
+		$('#settings').modal();
+	  $('#panel-title-configAddress').text(wmscfmConfigFilePath);
 		fs.readFile(wmscfmConfigFilePath,function (err, data) {
 			if (err) {
 				showError(err.toString());
